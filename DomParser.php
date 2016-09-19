@@ -35,9 +35,8 @@ class DomParser
     }
     private function computeLastPageNumber($urlString)
     {
-        123 // Should check if pagen found
-        echo $urlString;
-        return array_pop(explode('=', $this->computeDomObjects($this->paginationXpath, $urlString)[0]->getAttribute('href')));
+        $paginationDomObject = $this->computeDomObjects($this->paginationXpath, $urlString)[0];
+        return (isset($paginationDomObject)) ? array_pop(explode('=', $paginationDomObject->getAttribute('href'))) : 1;
     }
     private function hasNoSubcategories(&$dataObj)
     {
@@ -81,6 +80,7 @@ class DomParser
     {
         $itemsUrlString = rtrim($this->urlString, "/") . $dataObj['href'];
         $lastPageNumber = $this->computeLastPageNumber($itemsUrlString);
+
         for ($i = 1, $len = $lastPageNumber + 1; $i < $len; $i++) {
             $url = $itemsUrlString . '?sort=PROPERTY_ostatok&method=DESC&PAGEN_1=' . $i;
             $domObjects = $this->computeDomObjects($this->itemsXpath, $url);
