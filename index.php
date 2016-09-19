@@ -1,0 +1,5 @@
+<?php
+
+require('DomParser.php');
+
+?>
